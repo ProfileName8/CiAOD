@@ -1,7 +1,7 @@
 #include <iostream>
 
 using namespace std;
-//Пузырьком
+//Пузырьком (не то)
 void SortP(int m[], int sz)
 {
 	for (int i = 0; i < sz; i++)
