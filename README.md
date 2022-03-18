@@ -1,66 +1,45 @@
 #include <iostream>
 
 using namespace std;
-//Пузырьком (не то)
-void SortP(int m[], int sz)
-{
-	for (int i = 0; i < sz; i++)
-		for (int j = 0; j < sz - i - 1; j++)
-		{
-			if (m[j] > m[j + 1])
-			{
-				int l = m[j];
-				m[j] = m[j + 1];
-				m[j + 1] = l;
-			}
-		}
-}
-
-//Простой выбор
+//Выбор 1.3 2.3
 void SortS(int m[], int sz)
 {
-	int k = sz;
-	int f = 0;
-	while (k > 0) {
-		int j = 0;
-		int max = 0;
-		for (int i = 1; i <= k; i++)
-		{
-			if (m[i] > max)
-			{
-				max = m[i];
-				j = i;
+	for (int i = 0; i < sz - 1; i++) {
+		int min_i = i;
+		for (int j = i + 1; j < sz; j++) {
+			if (m[j] < m[min_i]) {
+				min_i = j;
 			}
 		}
-
-		max = m[j];
-		m[j] = m[k];
-		m[k] = max;
-		k = k - 1;
+		int temp = m[i];
+		m[i] = m[min_i];
+		m[min_i] = temp;
 	}
 }
 
-//Многофазная (Не работает)
-void PhasS(int m[], int sz)
+//Многофазный простой выбор 3.3(Не работает)
+void SortSM(int m[], int sz)
 {
-	int s = 0;
-	while (s<=sizeof(m))
-	{
-		s += 4;
-		for (int i = s; i < s+s+1; i++)
-			for (int j = s; j < s+s - i - 1; j++)
-			{
-				if (m[j] > m[j + 1])
-				{
-					int l = m[j];
-					m[j] = m[j + 1];
-					m[j + 1] = l;
+	int s_f = 5;
+	int min_f = 0;
+	int max_f = s_f;
+	int l1 = sz/s_f;
+	for (int i = 0;i<l1;i++)
+		for (int k = min_f; k < max_f; k++)
+		{
+			int min_k = k;
+			for (int j = k + 1; j < max_f; j++) {
+				if (m[j] < m[min_k]) {
+					min_k = j;
 				}
 			}
-		for (int i = 0 ; i < sz; i++)
-			cout << m[i] << " ";
-		cout << endl << endl;
-	}
+			int temp = m[k];
+			m[k] = m[min_k];
+			m[min_k] = temp;
+			min_f += s_f;
+			max_f += s_f;
+		}
+		
 }
 
 int main()
@@ -72,8 +51,8 @@ int main()
 		m[i] = rand();
 		cout << m[i] << " ";
 	}
-	cout << endl<<endl;
+	cout << endl;
 	SortS(m, f);
-	for (int i = 0; i < f; i++)
+	for (int i = 0; i < sizeof(m); i++)
 		cout << m[i] << " ";
 }
